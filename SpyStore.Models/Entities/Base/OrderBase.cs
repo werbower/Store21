@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SpyStore.Models.Entities.Base
@@ -13,5 +14,9 @@ namespace SpyStore.Models.Entities.Base
         public DateTime ShipDate { get; set; }
         [Display(Name ="Customer")]
         public int CustomerId { get; set; }
+
+        [Display(Name = "Total")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal OrderTotal { get; set; }
     }
 }
