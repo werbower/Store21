@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using SpyStore.Dal.EfStructures.MigrationHelpers;
 
 namespace SpyStore.Dal.EfStructures.Migrations
 {
@@ -6,12 +7,18 @@ namespace SpyStore.Dal.EfStructures.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            ViewsHelper.CreateOrderDetailWithProductInfoView(migrationBuilder);
+            ViewsHelper.CreateCartRecordWithProductInfoView(migrationBuilder);
+            FunctionsHelper.CreateOrderTotalFunction(migrationBuilder);
+            SprocsHelper.CreatePurchaseSproc(migrationBuilder);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            ViewsHelper.DropOrderDetailWithProductInfoView(migrationBuilder);
+            ViewsHelper.DropCartRecordWithProductInfoView(migrationBuilder);
+            FunctionsHelper.DropOrderTotalFunction(migrationBuilder);
+            SprocsHelper.DropPurchaseSproc(migrationBuilder);
         }
     }
 }

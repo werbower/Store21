@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SpyStore.Models.Entities.Base
 {
@@ -19,6 +19,10 @@ namespace SpyStore.Models.Entities.Base
 
         [Required, DataType(DataType.Currency), Display(Name ="Unit Cost")]
         public decimal UnitCost { get; set; }
+
+        [DataType(DataType.Currency), Display(Name = "Total")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal LineItemTotal { get; set; }
 
     }
 }

@@ -17,6 +17,13 @@ namespace SpyStore.Dal.EfStructures
         public DbSet<Product> Products { get; set; }
         public DbSet<ShoppingCartRecord> ShoppingCartRecords { get; set; }
 
+        [DbFunction("GetOrderTotal", Schema = "Store")]
+        public static int GetOrderTotal(int orderId)
+        {
+            //code in here doesn't matter
+            throw new Exception();
+        }
+
         public StoreContext(DbContextOptions<StoreContext> dbContextOptions): base(dbContextOptions)
         {
 
@@ -38,11 +45,13 @@ namespace SpyStore.Dal.EfStructures
                 e.HasQueryFilter(x => x.CustomerId == CustomerId);
                 e.Property(i => i.OrderDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");
                 e.Property(i => i.ShipDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");
+                e.Property(i => i.OrderTotal).HasColumnType("money").HasComputedColumnSql("Store.GetOrderTotal([Id])");
             });
 
             modelBuilder.Entity<OrderDetail>(e =>
             {
                 e.Property(i => i.UnitCost).HasColumnType("money");
+                e.Property(i => i.LineItemTotal).HasColumnType("money").HasComputedColumnSql(" [Quantity]*[UnitCost] ");
             });
 
             modelBuilder.Entity<Product>(e =>
