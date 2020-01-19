@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpyStore.Models.Entities;
+using SpyStore.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,9 @@ namespace SpyStore.Dal.EfStructures
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ShoppingCartRecord> ShoppingCartRecords { get; set; }
+
+        public DbQuery<CartRecordWithProductInfo> CartRecordWithProductInfos { get; set; }
+        public DbQuery<OrderDetailWithProductInfo> OrderDetailWithProductInfos { get; set; }
 
         [DbFunction("GetOrderTotal", Schema = "Store")]
         public static int GetOrderTotal(int orderId)
@@ -68,6 +72,10 @@ namespace SpyStore.Dal.EfStructures
                 e.HasQueryFilter(x => x.CustomerId == CustomerId);
             });
 
+            modelBuilder.Query<CartRecordWithProductInfo>()
+                .ToView("CartRecordWithProductInfo", "Store");
+            modelBuilder.Query<OrderDetailWithProductInfo>()
+                .ToView("OrderDetailWithProductInfo", "Store");
         }
 
        
